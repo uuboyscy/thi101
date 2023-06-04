@@ -23,9 +23,14 @@ for _ in range(5):
         print(title)
         print(article_url)
 
-        load_article_to_some_folder(
-            article_url=article_url,
-            file_name=title
-        )
+        try:
+            load_article_to_some_folder(
+                article_url=article_url,
+                file_name=title.replace("/", " ")
+            )
+        except OSError as e:
+            print(e)
+        except Exception as e:
+            print(e)
 
     url = "https://www.ptt.cc" + soup.select('a[class="btn wide"]')[1]["href"]
