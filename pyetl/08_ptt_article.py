@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from crawler_utils import load_article
+from crawler_utils import load_article_to_some_folder
 
 url = "https://www.ptt.cc/bbs/joke/index.html"
 
@@ -23,7 +23,7 @@ for _ in range(5):
         print(title)
         print(article_url)
 
-        load_article(
+        load_article_to_some_folder(
             article_url=article_url,
             file_name=title
         )
