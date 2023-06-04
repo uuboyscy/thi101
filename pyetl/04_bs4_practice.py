@@ -33,4 +33,16 @@ print(title_tag[0].text)  # 批踢踢實業坊
 print("https://www.ptt.cc" + title_tag[0]["href"])
 
 
+title_tag = soup.find_all('div', class_='title')
+print(title_tag)
+"""
+<div class="title">
+<a href="/bbs/joke/M.1685841631.A.FEA.html">[趣事] Hebe告五人</a>
+</div>
+"""
+print(title_tag[0])
+print(title_tag[0].select_one('a'))  # <a href="/bbs/joke/M.1685841631.A.FEA.html">[趣事] Hebe告五人</a>
+print(title_tag[0].select_one('a').text)
 
+print(type(title_tag[0].select_one('a')))
+print(type(soup))
