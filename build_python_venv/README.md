@@ -29,6 +29,11 @@
   ```
   This also output a lock file
 
+- Deactivate virtual environment
+  ```shell
+  deactivate
+  ```
+
 ### Re-build a Python environment from a Pipfile
 
 - Output lock file
