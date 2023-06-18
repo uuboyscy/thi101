@@ -1,4 +1,9 @@
+import os
+import pathlib
+
 import requests
+
+import map_lambda
 
 
 headers = {
@@ -20,7 +25,11 @@ print(ss.cookies)
 ss.get(landing_page_url, headers=headers)
 print(ss.cookies)
 
-ss.post(over18_url, data=data, headers=headers)
+ss.post(
+    over18_url,
+    data=data,
+    headers=headers,
+)
 print(ss.cookies)
 
 res = ss.get(url, headers=headers)
