@@ -1,6 +1,14 @@
-from flask import Flask, request
+from flask import (
+    Flask,
+    request,
+    jsonify,
+    render_template
+)
 
-app = Flask(__name__)
+import poker as p
+import model
+
+app = Flask(__name__, static_url_path="/source", static_folder="./source")
 
 
 @app.route("/")
@@ -9,9 +17,18 @@ def index_page():
 
 
 # /hello/Allen
+# @app.route("/hello/<username>")
+# def hello(username: str):
+#     return "Hello %s !" % (username)
+
+
+# /hello/Allen
 @app.route("/hello/<username>")
 def hello(username: str):
-    return "Hello %s !" % (username)
+    return render_template(
+        "hello.html",
+        username=username,
+    )
 
 
 # /two_sum/3/5
@@ -54,24 +71,64 @@ def hello_get():
         return "Hello %s, you are %s years old." % (username, age)
 
 
+# @app.route("/hello_post", methods=["GET", "POST"])
+# def hello_post():
+#     result = """
+#         <form action="/hello_post" method="POST">
+#             <label>What is your name?</label>
+#             <input name="username">
+#             <button>SUBMIT</button>
+#         </form>
+#     """
+
+#     request_method = request.method  # POST, GET
+#     if request_method == "POST":
+#         username = request.form.get("username")
+#         result += """
+#             <h1>Hello %s !</h1>
+#         """ % (username)
+
+#     return result
+
+
 @app.route("/hello_post", methods=["GET", "POST"])
 def hello_post():
-    result = """
-        <form action="/hello_post" method="POST">
-            <label>What is your name?</label>
-            <input name="username">
-            <button>SUBMIT</button>
-        </form>
-    """
+    request_method = request.method
+    username = request.form.get("username")
 
-    request_method = request.method  # POST, GET
-    if request_method == "POST":
-        username = request.form.get("username")
-        result += """
-            <h1>Hello %s !</h1>
-        """ % (username)
+    return render_template(
+        "hello_post.html",
+        request_method=request_method,
+        username=username,
+    )
 
-    return result
+
+# # /poker/<int:player>
+# @app.route("/poker/<int:player>")
+# def poker(player: int):
+#     result = p.poker(player)
+
+#     return jsonify(result)
+
+
+@app.route('/poker', methods=['GET', 'POST'])
+def poker():
+    request_method = request.method
+    players = 0
+    cards = dict()
+    if request_method == 'POST':
+        players = int(request.form.get('players'))
+        cards = p.poker(players)
+    return render_template('poker.html', request_method=request_method,
+                                         cards=cards)
+
+
+@app.route('/show_staff')
+def hello_google():
+    staff_data = model.getStaff()
+    column = ['ID', 'Name', 'DeptId', 'Age', 'Gender', 'Salary']
+    return render_template('show_staff.html', staff_data=staff_data,
+                                              column=column)
 
 
 if __name__ == "__main__":
